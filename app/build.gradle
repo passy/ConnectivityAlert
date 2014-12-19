@@ -1,0 +1,35 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 21
+    buildToolsVersion "21.1.1"
+
+    defaultConfig {
+        applicationId "net.rdrei.android.connectivityalert"
+        minSdkVersion 21
+        targetSdkVersion 21
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+repositories {
+    mavenCentral()
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+}
+
+dependencies {
+    compile 'com.parse.bolts:bolts-android:1.1.4'
+    compile 'io.reactivex:rxjava:1.0.3'
+    compile 'io.reactivex:rxandroid:0.23.0'
+    compile 'com.google.dagger:dagger:2.0-SNAPSHOT'
+    compile 'javax.inject:javax.inject:1'
+    provided 'com.google.dagger:dagger-compiler:2.0-SNAPSHOT'
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+}
