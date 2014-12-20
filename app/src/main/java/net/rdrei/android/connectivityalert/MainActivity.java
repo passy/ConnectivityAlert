@@ -6,11 +6,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
 
+import com.parse.ParseAnalytics;
+
 
 public class MainActivity extends Activity {
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ParseAnalytics.trackAppOpenedInBackground(getIntent());
         final ViewGroup container = (ViewGroup) findViewById(android.R.id.content);
         getLayoutInflater().inflate(R.layout.activity_main, container);
     }

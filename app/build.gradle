@@ -1,4 +1,15 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        maven { url 'https://maven.parse.com/repo' }
+    }
+    dependencies {
+        classpath 'com.parse.tools:gradle:1.+'
+    }
+}
+
 apply plugin: 'com.android.application'
+apply plugin: 'com.parse'
 
 android {
     compileSdkVersion 21
@@ -17,6 +28,13 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+}
+
+parse {
+    applicationId "m7NZAvarDqfFKgtjt6T61079YAINIejqeZygkl2a"
+    masterKey "YBqthMB9YKdff5ltlLWHZQMUL2qj60avuoStRH3z"
+    // This makes it automatic. Otherwise you would have to run e.g. gradlew parseUploadSymbolsRelease.
+    uploadSymbols true
 }
 
 repositories {
