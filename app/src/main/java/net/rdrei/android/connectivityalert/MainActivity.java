@@ -4,18 +4,34 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewGroup;
 
 import com.parse.ParseAnalytics;
 
+import dagger.Component;
+
 
 public class MainActivity extends Activity {
+    private ActivityComponent mComponent;
+
+    @Component(modules = ActivityModule.class)
+    interface ActivityComponent {
+        void inject(View view);
+    }
+
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ParseAnalytics.trackAppOpenedInBackground(getIntent());
+        ParseAnalytics.trackEventInBackground("MainActivity.onCreate");
         final ViewGroup container = (ViewGroup) findViewById(android.R.id.content);
         getLayoutInflater().inflate(R.layout.activity_main, container);
+
+        ((CAApplication) getApplication()).getComponent().inject(this);
+        mComponent = Dagger_MainActivity$ActivityComponent.builder()
+                .activityModule(new ActivityModule(this))
+                .build();
     }
 
     @Override
@@ -38,5 +54,9 @@ public class MainActivity extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void inject(final View view) {
+        mComponent.inject(view);
     }
 }

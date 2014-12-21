@@ -7,7 +7,19 @@ import com.parse.ParseACL;
 import com.parse.ParseCrashReporting;
 import com.parse.ParseUser;
 
+import javax.inject.Singleton;
+
+import dagger.Component;
+
 public class CAApplication extends Application {
+    private ApplicationComponent mComponent;
+
+    @Singleton
+    @Component(modules = AndroidModule.class)
+    interface ApplicationComponent {
+        void inject(MainActivity activity);
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -26,5 +38,13 @@ public class CAApplication extends Application {
         defaultACL.setPublicReadAccess(true);
 
         ParseACL.setDefaultACL(defaultACL, true);
+
+        mComponent = Dagger_CAApplication$ApplicationComponent.builder()
+                .androidModule(new AndroidModule(this))
+                .build();
+    }
+
+    public ApplicationComponent getComponent() {
+        return mComponent;
     }
 }
