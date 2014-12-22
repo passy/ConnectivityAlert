@@ -3,22 +3,25 @@ package net.rdrei.android.connectivityalert.ui;
 import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
+import net.rdrei.android.connectivityalert.ConnectivityObservable;
 import net.rdrei.android.connectivityalert.MainActivity;
 
 import javax.inject.Inject;
 
 import rx.Observable;
-import rx.android.observables.AndroidObservable;
 
 public class HelloView extends TextView {
     @Inject
     ActionBar mActionBar;
+
+    @Inject
+    @ConnectivityObservable
+    Observable<Intent> mConnectivityObservable;
 
     @Inject
     ConnectivityManager mConnectivityManager;
@@ -42,10 +45,7 @@ public class HelloView extends TextView {
         ((MainActivity) getContext()).getComponent().inject(this);
 
         updateUI();
-
-        final IntentFilter intentFilter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
-        final Observable<Intent> connectivityObservable = AndroidObservable.fromBroadcast(getContext(), intentFilter);
-        connectivityObservable.subscribe(intent -> updateUI());
+        mConnectivityObservable.subscribe(intent -> updateUI());
     }
 
     boolean isConnected() {
