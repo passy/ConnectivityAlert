@@ -19,9 +19,9 @@ public class MainActivity extends Activity {
     private ActivityComponent mComponent;
 
     @Singleton
-    @Component(modules = ActivityModule.class)
-    interface ActivityComponent {
-        void inject(HelloView view);
+    @Component(modules = { ActivityModule.class, AndroidModule.class })
+    public interface ActivityComponent {
+        public void inject(HelloView view);
     }
 
     @Override
@@ -31,6 +31,7 @@ public class MainActivity extends Activity {
         ((CAApplication) getApplication()).getComponent().inject(this);
         mComponent = Dagger_MainActivity$ActivityComponent.builder()
                 .activityModule(new ActivityModule(this))
+                .androidModule(new AndroidModule((CAApplication) this.getApplication()))
                 .build();
 
         ParseAnalytics.trackAppOpenedInBackground(getIntent());
@@ -40,18 +41,18 @@ public class MainActivity extends Activity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(final Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(final MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+        final int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
@@ -61,7 +62,7 @@ public class MainActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void inject(final HelloView view) {
-        mComponent.inject(view);
+    public ActivityComponent getComponent() {
+        return mComponent;
     }
 }

@@ -1,14 +1,12 @@
 package net.rdrei.android.connectivityalert;
 
 import android.content.Context;
-import android.location.LocationManager;
+import android.net.ConnectivityManager;
 
 import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
-
-import static android.content.Context.LOCATION_SERVICE;
 
 /**
  * A module for Android-specific dependencies which require a {@link Context} or
@@ -26,11 +24,13 @@ public class AndroidModule {
    * Allow the mApplication context to be injected but require that it be annotated with
    * {@link CAApplication @Annotation} to explicitly differentiate it from an activity context.
    */
-  @Provides @Singleton @ForApplication Context provideApplicationContext() {
+  @Provides @Singleton @ForApplication
+  public Context provideApplicationContext() {
     return mApplication;
   }
 
-  @Provides @Singleton LocationManager provideLocationManager() {
-    return (LocationManager) mApplication.getSystemService(LOCATION_SERVICE);
+  @Provides @Singleton
+  public ConnectivityManager provideConnectivityManager() {
+    return (ConnectivityManager) mApplication.getSystemService(Context.CONNECTIVITY_SERVICE);
   }
 }
