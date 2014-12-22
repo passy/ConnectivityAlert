@@ -19,7 +19,7 @@ public class AndroidModule {
   private final CAApplication mApplication;
 
   public AndroidModule(CAApplication application) {
-    this.mApplication = application;
+    mApplication = application;
   }
 
   /**

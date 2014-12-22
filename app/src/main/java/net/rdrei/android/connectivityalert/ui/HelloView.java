@@ -33,7 +33,8 @@ public class HelloView extends TextView {
     protected void onFinishInflate() {
         super.onFinishInflate();
 
-        ((MainActivity) getContext()).inject(this);
+        final MainActivity ctx = (MainActivity) getContext();
+        ctx.inject(this);
         setText("Hello, World!");
         mActionBar.setTitle("HelloView");
     }

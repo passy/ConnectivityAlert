@@ -6,12 +6,14 @@ buildscript {
     dependencies {
         classpath 'com.parse.tools:gradle:1.+'
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.4'
+        classpath 'me.tatarka:gradle-retrolambda:2.5.0'
     }
 }
 
 apply plugin: 'com.android.application'
 apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'com.parse'
+apply plugin: 'me.tatarka.retrolambda'
 
 android {
     compileSdkVersion 21
@@ -32,6 +34,10 @@ android {
     }
     dexOptions {
         incremental false
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 

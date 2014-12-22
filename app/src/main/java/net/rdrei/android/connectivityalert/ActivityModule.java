@@ -2,11 +2,15 @@ package net.rdrei.android.connectivityalert;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.Context;
+
+import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
 
-@Module(includes = AndroidModule.class)
+// TODO: Includes AndroidModule?
+@Module
 public class ActivityModule {
     private final Activity mActivity;
 
@@ -14,8 +18,14 @@ public class ActivityModule {
         mActivity = activity;
     }
 
+    @Provides @Singleton @ForActivity
+    Context provideActivityContext() {
+        return mActivity;
+    }
+
     @Provides
-    public ActionBar provideActionBar() {
+    @Singleton
+    ActionBar provideActionBar() {
         return mActivity.getActionBar();
     }
 }
