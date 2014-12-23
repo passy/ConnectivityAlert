@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
+import android.view.LayoutInflater;
 
 import javax.inject.Singleton;
 
@@ -46,5 +47,12 @@ public class AndroidModule {
     public Observable<Intent> provideConnectivityObservable() {
         final IntentFilter intentFilter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
         return AndroidObservable.fromBroadcast(mApplication, intentFilter);
+    }
+
+    @Provides
+    @Singleton
+    @ForApplication
+    public LayoutInflater provideLayoutInflater() {
+        return (LayoutInflater) mApplication.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 }

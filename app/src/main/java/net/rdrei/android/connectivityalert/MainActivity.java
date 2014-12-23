@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 
 import com.parse.ParseAnalytics;
 
-import net.rdrei.android.connectivityalert.ui.HelloView;
+import net.rdrei.android.connectivityalert.ui.MainScreen;
 
 import javax.inject.Singleton;
 
@@ -21,7 +21,7 @@ public class MainActivity extends Activity {
     @Singleton
     @Component(modules = { ActivityModule.class, AndroidModule.class })
     public interface ActivityComponent {
-        public void inject(HelloView view);
+        public void inject(MainScreen view);
     }
 
     @Override
@@ -36,6 +36,7 @@ public class MainActivity extends Activity {
 
         ParseAnalytics.trackAppOpenedInBackground(getIntent());
         ParseAnalytics.trackEventInBackground("MainActivity.onCreate");
+
         final ViewGroup container = (ViewGroup) findViewById(android.R.id.content);
         getLayoutInflater().inflate(R.layout.activity_main, container);
     }

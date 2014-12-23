@@ -3,6 +3,7 @@ package net.rdrei.android.connectivityalert;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
+import android.view.LayoutInflater;
 
 import javax.inject.Singleton;
 
@@ -18,7 +19,9 @@ public class ActivityModule {
         mActivity = activity;
     }
 
-    @Provides @Singleton @ForActivity
+    @Provides
+    @Singleton
+    @ForActivity
     Context provideActivityContext() {
         return mActivity;
     }
@@ -27,5 +30,12 @@ public class ActivityModule {
     @Singleton
     ActionBar provideActionBar() {
         return mActivity.getActionBar();
+    }
+
+    @Provides
+    @Singleton
+    @ForActivity
+    LayoutInflater provideLayoutInflater() {
+        return mActivity.getLayoutInflater();
     }
 }
