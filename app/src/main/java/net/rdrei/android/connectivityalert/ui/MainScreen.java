@@ -4,7 +4,7 @@ import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
+import android.support.annotation.LayoutRes;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,16 +17,13 @@ import net.rdrei.android.connectivityalert.ForActivity;
 import net.rdrei.android.connectivityalert.MainActivity;
 import net.rdrei.android.connectivityalert.R;
 
-import java.util.LinkedList;
-import java.util.Queue;
-
 import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import rx.Observable;
-import rx.Subscription;
 
+// TODO: Extract an interface from this.
 public class MainScreen extends FrameLayout {
     @Inject
     ActionBar mActionBar;
@@ -42,8 +39,8 @@ public class MainScreen extends FrameLayout {
     @ForActivity
     LayoutInflater mLayoutInflater;
 
+    private MainScreenPresenter mPresenter;
     private ViewHolder mViewHolder;
-    final private Queue<Subscription> mSubscriptions = new LinkedList<>();
 
     public MainScreen(final Context context) {
         super(context);
@@ -70,46 +67,31 @@ public class MainScreen extends FrameLayout {
         super.onFinishInflate();
 
         ((MainActivity) getContext()).getComponent().inject(this);
+        // Figure out how to inject this, including the View
+        mPresenter = new MainScreenPresenter(this, mConnectivityObservable, mConnectivityManager);
     }
 
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-
-        // TODO: Use a proper observable
-        mSubscriptions.add(mConnectivityObservable.subscribe(intent -> updateUI()));
+        // TODO: Consider making a base class that allows hooking into the lifecycle
+        //       via observables.
+        mPresenter.onStart();
+        // Just as an example.
+        mActionBar.setTitle("HelloView");
     }
 
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-
-        for (final Subscription subscription : mSubscriptions) {
-            subscription.unsubscribe();
-        }
+        mPresenter.onStop();
     }
 
-    boolean isConnected() {
-        final NetworkInfo activeNetworkInfo = mConnectivityManager.getActiveNetworkInfo();
-        return activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
-    }
-
-    void updateUI() {
-        mActionBar.setTitle("HelloView");
-        final int containerViewId;
-
-        // TODO: Presenter, animate!
-        if (isConnected()) {
-            containerViewId = R.layout.ui_connected_view;
-        } else {
-            containerViewId = R.layout.ui_disconnected_view;
-        }
-
+    public void inflateInnerView(@LayoutRes final int resId) {
         mViewHolder.mProgressBar.setVisibility(GONE);
         mViewHolder.mViewContainer.removeAllViewsInLayout();
-        mLayoutInflater.inflate(containerViewId, mViewHolder.mViewContainer);
+        mLayoutInflater.inflate(resId, mViewHolder.mViewContainer);
         mViewHolder.mViewContainer.setVisibility(VISIBLE);
-        mViewHolder.mViewContainer.invalidate();
     }
 
     static class ViewHolder {
