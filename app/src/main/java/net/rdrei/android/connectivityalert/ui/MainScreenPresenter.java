@@ -49,7 +49,6 @@ public class MainScreenPresenter implements Presenter {
     void updateUI() {
         final int containerViewId;
 
-        // TODO: Presenter, animate!
         if (isConnected()) {
             containerViewId = R.layout.ui_connected_view;
         } else {

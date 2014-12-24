@@ -12,18 +12,25 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 
+import net.rdrei.android.connectivityalert.ActivityModule;
+import net.rdrei.android.connectivityalert.AndroidModule;
+import net.rdrei.android.connectivityalert.CAApplication;
 import net.rdrei.android.connectivityalert.ConnectivityObservable;
 import net.rdrei.android.connectivityalert.ForActivity;
-import net.rdrei.android.connectivityalert.MainActivity;
 import net.rdrei.android.connectivityalert.R;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import dagger.Component;
+import dagger.Module;
+import dagger.Provides;
 import rx.Observable;
 
 // TODO: Extract an interface from this.
+// TODO: Make the class the module itself?
 public class MainScreen extends FrameLayout {
     @Inject
     ActionBar mActionBar;
@@ -39,7 +46,9 @@ public class MainScreen extends FrameLayout {
     @ForActivity
     LayoutInflater mLayoutInflater;
 
-    private MainScreenPresenter mPresenter;
+    @Inject
+    MainScreenPresenter mPresenter;
+
     private ViewHolder mViewHolder;
 
     public MainScreen(final Context context) {
@@ -62,13 +71,26 @@ public class MainScreen extends FrameLayout {
         mViewHolder = new ViewHolder(view);
     }
 
+    public void inflateInnerView(@LayoutRes final int resId) {
+        mViewHolder.mProgressBar.setVisibility(GONE);
+        mViewHolder.mViewContainer.removeAllViewsInLayout();
+        mLayoutInflater.inflate(resId, mViewHolder.mViewContainer);
+        mViewHolder.mViewContainer.setVisibility(VISIBLE);
+    }
+
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
 
-        ((MainActivity) getContext()).getComponent().inject(this);
+        // TODO: Find out how to make use of dependencies instead and pass in the component
+        Dagger_MainScreen$PresenterComponent.builder()
+                .presenterModule(new PresenterModule())
+                .androidModule(new AndroidModule((CAApplication) getContext().getApplicationContext()))
+                .activityModule(new ActivityModule((android.app.Activity) getContext()))
+                .build()
+                .inject(this);
         // Figure out how to inject this, including the View
-        mPresenter = new MainScreenPresenter(this, mConnectivityObservable, mConnectivityManager);
+        // mPresenter = new MainScreenPresenter(this, mConnectivityObservable, mConnectivityManager);
     }
 
     @Override
@@ -87,13 +109,6 @@ public class MainScreen extends FrameLayout {
         mPresenter.onStop();
     }
 
-    public void inflateInnerView(@LayoutRes final int resId) {
-        mViewHolder.mProgressBar.setVisibility(GONE);
-        mViewHolder.mViewContainer.removeAllViewsInLayout();
-        mLayoutInflater.inflate(resId, mViewHolder.mViewContainer);
-        mViewHolder.mViewContainer.setVisibility(VISIBLE);
-    }
-
     static class ViewHolder {
         @InjectView(R.id.progress_view)
         ProgressBar mProgressBar;
@@ -103,6 +118,22 @@ public class MainScreen extends FrameLayout {
 
         ViewHolder(final View root) {
             ButterKnife.inject(this, root);
+        }
+    }
+
+    // TODO: Find out what dependencies actually does for you.
+    @Component(modules = PresenterModule.class)
+    @Singleton
+    interface PresenterComponent {
+        void inject(MainScreen screen);
+        void inject(MainScreenPresenter presenter);
+    }
+
+    @Module(includes = { ActivityModule.class, AndroidModule.class })
+    class PresenterModule {
+        @Provides
+        MainScreen provideMainScreen() {
+            return MainScreen.this;
         }
     }
 }

@@ -8,8 +8,6 @@ import android.view.ViewGroup;
 
 import com.parse.ParseAnalytics;
 
-import net.rdrei.android.connectivityalert.ui.MainScreen;
-
 import javax.inject.Singleton;
 
 import dagger.Component;
@@ -21,7 +19,6 @@ public class MainActivity extends Activity {
     @Singleton
     @Component(modules = { ActivityModule.class, AndroidModule.class })
     public interface ActivityComponent {
-        public void inject(MainScreen view);
     }
 
     @Override
