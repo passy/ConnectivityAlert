@@ -12,11 +12,9 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 
-import net.rdrei.android.connectivityalert.ActivityModule;
-import net.rdrei.android.connectivityalert.AndroidModule;
-import net.rdrei.android.connectivityalert.CAApplication;
 import net.rdrei.android.connectivityalert.ConnectivityObservable;
 import net.rdrei.android.connectivityalert.ForActivity;
+import net.rdrei.android.connectivityalert.MainActivity;
 import net.rdrei.android.connectivityalert.R;
 
 import javax.inject.Inject;
@@ -30,7 +28,7 @@ import dagger.Provides;
 import rx.Observable;
 
 // TODO: Extract an interface from this.
-// TODO: Make the class the module itself?
+@Module
 public class MainScreen extends FrameLayout {
     @Inject
     ActionBar mActionBar;
@@ -82,15 +80,11 @@ public class MainScreen extends FrameLayout {
     protected void onFinishInflate() {
         super.onFinishInflate();
 
-        // TODO: Find out how to make use of dependencies instead and pass in the component
         Dagger_MainScreen$PresenterComponent.builder()
-                .presenterModule(new PresenterModule())
-                .androidModule(new AndroidModule((CAApplication) getContext().getApplicationContext()))
-                .activityModule(new ActivityModule((android.app.Activity) getContext()))
+                .mainScreen(this)
+                .activityComponent(((MainActivity) getContext()).getComponent())
                 .build()
                 .inject(this);
-        // Figure out how to inject this, including the View
-        // mPresenter = new MainScreenPresenter(this, mConnectivityObservable, mConnectivityManager);
     }
 
     @Override
@@ -121,19 +115,14 @@ public class MainScreen extends FrameLayout {
         }
     }
 
-    // TODO: Find out what dependencies actually does for you.
-    @Component(modules = PresenterModule.class)
+    @Provides
+    MainScreen provideMainScreen() {
+        return this;
+    }
+
+    @Component(modules = MainScreen.class, dependencies = { MainActivity.ActivityComponent.class })
     @Singleton
     interface PresenterComponent {
         void inject(MainScreen screen);
-        void inject(MainScreenPresenter presenter);
-    }
-
-    @Module(includes = { ActivityModule.class, AndroidModule.class })
-    class PresenterModule {
-        @Provides
-        MainScreen provideMainScreen() {
-            return MainScreen.this;
-        }
     }
 }

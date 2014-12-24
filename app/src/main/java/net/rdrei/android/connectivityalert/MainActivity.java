@@ -1,7 +1,11 @@
 package net.rdrei.android.connectivityalert;
 
+import android.app.ActionBar;
 import android.app.Activity;
+import android.content.Intent;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
@@ -11,6 +15,7 @@ import com.parse.ParseAnalytics;
 import javax.inject.Singleton;
 
 import dagger.Component;
+import rx.Observable;
 
 
 public class MainActivity extends Activity {
@@ -19,6 +24,12 @@ public class MainActivity extends Activity {
     @Singleton
     @Component(modules = { ActivityModule.class, AndroidModule.class })
     public interface ActivityComponent {
+        public ActionBar getActionBar();
+        @ConnectivityObservable
+        public Observable<Intent> getConnectivityObservable();
+        public ConnectivityManager getConnectivityManager();
+        @ForActivity
+        public LayoutInflater getLayoutInflater();
     }
 
     @Override

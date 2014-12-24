@@ -22,20 +22,20 @@ public class ActivityModule {
     @Provides
     @Singleton
     @ForActivity
-    Context provideActivityContext() {
+    public Context provideActivityContext() {
         return mActivity;
     }
 
     @Provides
     @Singleton
-    ActionBar provideActionBar() {
+    public ActionBar provideActionBar() {
         return mActivity.getActionBar();
     }
 
     @Provides
     @Singleton
     @ForActivity
-    LayoutInflater provideLayoutInflater() {
+    public LayoutInflater provideLayoutInflater() {
         return mActivity.getLayoutInflater();
     }
 }
