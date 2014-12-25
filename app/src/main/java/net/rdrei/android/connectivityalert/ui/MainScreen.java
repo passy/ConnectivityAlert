@@ -2,8 +2,6 @@ package net.rdrei.android.connectivityalert.ui;
 
 import android.app.ActionBar;
 import android.content.Context;
-import android.content.Intent;
-import android.net.ConnectivityManager;
 import android.support.annotation.LayoutRes;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -12,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 
-import net.rdrei.android.connectivityalert.ConnectivityObservable;
 import net.rdrei.android.connectivityalert.ForActivity;
 import net.rdrei.android.connectivityalert.MainActivity;
 import net.rdrei.android.connectivityalert.R;
@@ -25,20 +22,12 @@ import butterknife.InjectView;
 import dagger.Component;
 import dagger.Module;
 import dagger.Provides;
-import rx.Observable;
 
 // TODO: Extract an interface from this.
 @Module
 public class MainScreen extends FrameLayout {
     @Inject
     ActionBar mActionBar;
-
-    @Inject
-    @ConnectivityObservable
-    Observable<Intent> mConnectivityObservable;
-
-    @Inject
-    ConnectivityManager mConnectivityManager;
 
     @Inject
     @ForActivity
