@@ -28,11 +28,10 @@ public class CAApplication extends Application {
         ParseCrashReporting.enable(this);
 
         // Add your initialization code here
-        Parse.initialize(this, "m7NZAvarDqfFKgtjt6T61079YAINIejqeZygkl2a",
-                "YBqthMB9YKdff5ltlLWHZQMUL2qj60avuoStRH3z");
+        Parse.initialize(this, BuildConfig.PARSE_APPLICATION_ID, BuildConfig.PARSE_MASTER_KEY);
 
         ParseUser.enableAutomaticUser();
-        ParseACL defaultACL = new ParseACL();
+        final ParseACL defaultACL = new ParseACL();
 
         // If you would like all objects to be private by default, remove this line.
         defaultACL.setPublicReadAccess(true);

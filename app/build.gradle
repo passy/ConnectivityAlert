@@ -32,6 +32,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    applicationVariants.all { variant ->
+        variant.buildConfigField "String", "PARSE_APPLICATION_ID", "\"" + parseApplicationId + "\""
+        variant.buildConfigField "String", "PARSE_MASTER_KEY", "\"" + parseMasterKey + "\""
+    }
     dexOptions {
         incremental false
     }
@@ -42,8 +46,8 @@ android {
 }
 
 parse {
-    applicationId "m7NZAvarDqfFKgtjt6T61079YAINIejqeZygkl2a"
-    masterKey "YBqthMB9YKdff5ltlLWHZQMUL2qj60avuoStRH3z"
+    applicationId parseApplicationId
+    masterKey parseMasterKey
     // This makes it automatic. Otherwise you would have to run e.g. gradlew parseUploadSymbolsRelease.
     uploadSymbols true
 }
