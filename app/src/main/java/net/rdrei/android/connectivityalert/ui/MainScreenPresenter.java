@@ -38,10 +38,10 @@ public class MainScreenPresenter implements Presenter {
         }
     }
 
-    void updateUI(final ConnectivityModel.ConnectivityState state) {
+    void updateUI(final ConnectivityModel.Connectivity connectivity) {
         final int containerViewId;
 
-        if (state.equals(ConnectivityModel.ConnectivityState.CONNECTED)) {
+        if (connectivity.state.equals(ConnectivityModel.ConnectivityState.CONNECTED)) {
             containerViewId = R.layout.ui_connected_view;
         } else {
             containerViewId = R.layout.ui_disconnected_view;

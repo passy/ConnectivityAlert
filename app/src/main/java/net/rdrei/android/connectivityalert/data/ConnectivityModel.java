@@ -7,10 +7,14 @@ import android.support.annotation.NonNull;
 
 import net.rdrei.android.connectivityalert.ConnectivityObservable;
 
+import java.util.Date;
+
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import rx.Observable;
 
+@Singleton
 public class ConnectivityModel {
     private final Observable<Intent> mConnectivityIntentObservable;
     private final ConnectivityManager mConnectivityManager;
@@ -19,6 +23,21 @@ public class ConnectivityModel {
         CONNECTED,
         DISCONNECTED,
         PENDING
+    }
+
+    public class Connectivity {
+        public final Date timestamp;
+        public final ConnectivityState state;
+
+        public Connectivity(final ConnectivityState state, final Date timestamp) {
+            this.timestamp = timestamp;
+            this.state = state;
+        }
+
+        public Connectivity(final ConnectivityState state) {
+            this.timestamp = new Date();
+            this.state = state;
+        }
     }
 
     @Inject
@@ -32,10 +51,10 @@ public class ConnectivityModel {
 
 
     @NonNull
-    public Observable<ConnectivityState> connectivity() {
+    public Observable<Connectivity> connectivity() {
         return mConnectivityIntentObservable.flatMap(intent -> Observable.just(isConnected() ?
-                ConnectivityState.CONNECTED :
-                ConnectivityState.DISCONNECTED));
+                new Connectivity(ConnectivityState.CONNECTED) :
+                new Connectivity(ConnectivityState.DISCONNECTED)));
     }
 
     boolean isConnected() {
