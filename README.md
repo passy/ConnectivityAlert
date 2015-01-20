@@ -12,7 +12,7 @@ Create a new Parse app at
 and copy the keys into `gradle.properties`:
 
 ```
-parseApplicationId=[yout app id]
+parseApplicationId=[your app id]
 parseMasterKey=[your master key]
 ```
 
