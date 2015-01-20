@@ -20,6 +20,9 @@ parseMasterKey=[your master key]
 Building
 --------
 
+Make sure that your `JAVA_HOME` points to a valid **JDK 8** installation.
+
+
 ```
 ./gradlew :app:installDebug
 ```
