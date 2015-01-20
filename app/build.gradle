@@ -58,6 +58,7 @@ repositories {
 }
 
 dependencies {
+    retrolambdaConfig 'net.orfjackal.retrolambda:retrolambda:1.8.1'
     compile 'com.parse.bolts:bolts-android:1.1.4'
     compile 'io.reactivex:rxjava:1.0.3'
     compile 'io.reactivex:rxandroid:0.23.0'
