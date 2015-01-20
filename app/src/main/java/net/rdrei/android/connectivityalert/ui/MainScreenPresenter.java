@@ -38,7 +38,7 @@ public class MainScreenPresenter implements Presenter {
         }
     }
 
-    void updateUI(final ConnectivityModel.Connectivity connectivity) {
+    private void updateUI(final ConnectivityModel.Connectivity connectivity) {
         final int containerViewId;
 
         if (connectivity.state.equals(ConnectivityModel.ConnectivityState.CONNECTED)) {
