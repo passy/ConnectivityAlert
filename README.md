@@ -3,7 +3,6 @@ ConnectivityAlert
 
 Dagger 2 experiments on Android.
 
-
 Setup
 -----
 
@@ -16,13 +15,20 @@ parseApplicationId=[your app id]
 parseMasterKey=[your master key]
 ```
 
-
 Building
 --------
 
-Make sure that your `JAVA_HOME` points to a valid **JDK 8** installation.
+Make sure that your `JAVA_HOME` points to a valid **JDK 8** installation. You'll
+see `major.minor` mismatch errors otherwise.
 
 
 ```
 ./gradlew :app:installDebug
+```
+
+Tests
+-----
+
+```
+./gradlew :app:checkConnectedAndroid
 ```
