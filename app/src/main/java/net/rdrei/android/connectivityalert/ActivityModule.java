@@ -10,7 +10,6 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 
-// TODO: Includes AndroidModule?
 @Module
 public class ActivityModule {
     private final Activity mActivity;

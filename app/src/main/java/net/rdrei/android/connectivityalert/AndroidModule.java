@@ -43,6 +43,7 @@ public class AndroidModule {
     }
 
     @Provides
+    @Singleton
     @ConnectivityObservable
     public Observable<Intent> provideConnectivityObservable() {
         final IntentFilter intentFilter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);

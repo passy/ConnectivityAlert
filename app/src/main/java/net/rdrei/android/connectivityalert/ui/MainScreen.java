@@ -105,6 +105,7 @@ public class MainScreen extends FrameLayout {
     }
 
     @Provides
+    @Singleton
     MainScreen provideMainScreen() {
         return this;
     }
