@@ -1,0 +1,14 @@
+language: android
+jdk:
+- oraclejdk8
+before_install:
+  - echo "parseApplicationId=testid" >> gradle.properties
+  - echo "parseMasterKey=testkey" >> gradle.properties
+android:
+  components:
+    - platform-tools
+    - tools
+    - build-tools-21.1.2
+    - android-20
+    - extra-google-m2repository
+    - extra-android-m2repository
