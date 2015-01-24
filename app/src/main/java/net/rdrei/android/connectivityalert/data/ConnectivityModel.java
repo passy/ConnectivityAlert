@@ -5,16 +5,14 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.annotation.NonNull;
 
-import net.rdrei.android.connectivityalert.ConnectivityObservable;
+import net.rdrei.android.connectivityalert.scope.ConnectivityObservable;
 
 import java.util.Date;
 
 import javax.inject.Inject;
-import javax.inject.Singleton;
 
 import rx.Observable;
 
-@Singleton
 public class ConnectivityModel {
     private final Observable<Intent> mConnectivityIntentObservable;
     private final ConnectivityManager mConnectivityManager;

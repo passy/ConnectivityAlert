@@ -10,12 +10,11 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 
-import net.rdrei.android.connectivityalert.ForActivity;
 import net.rdrei.android.connectivityalert.MainActivity;
 import net.rdrei.android.connectivityalert.R;
+import net.rdrei.android.connectivityalert.scope.ForActivity;
 
 import javax.inject.Inject;
-import javax.inject.Singleton;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -27,6 +26,7 @@ import dagger.Provides;
 @Module
 public class MainScreen extends FrameLayout {
     @Inject
+    @ForActivity
     ActionBar mActionBar;
 
     @Inject
@@ -69,7 +69,7 @@ public class MainScreen extends FrameLayout {
     protected void onFinishInflate() {
         super.onFinishInflate();
 
-        Dagger_MainScreen$PresenterComponent.builder()
+        Dagger_MainScreen_PresenterComponent.builder()
                 .mainScreen(this)
                 .activityComponent(((MainActivity) getContext()).getComponent())
                 .build()
@@ -105,13 +105,11 @@ public class MainScreen extends FrameLayout {
     }
 
     @Provides
-    @Singleton
     MainScreen provideMainScreen() {
         return this;
     }
 
     @Component(modules = MainScreen.class, dependencies = { MainActivity.ActivityComponent.class })
-    @Singleton
     interface PresenterComponent {
         void inject(MainScreen screen);
     }

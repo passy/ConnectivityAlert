@@ -5,7 +5,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 
-import javax.inject.Singleton;
+import net.rdrei.android.connectivityalert.scope.ForActivity;
 
 import dagger.Module;
 import dagger.Provides;
@@ -19,20 +19,18 @@ public class ActivityModule {
     }
 
     @Provides
-    @Singleton
     @ForActivity
     public Context provideActivityContext() {
         return mActivity;
     }
 
     @Provides
-    @Singleton
+    @ForActivity
     public ActionBar provideActionBar() {
         return mActivity.getActionBar();
     }
 
     @Provides
-    @Singleton
     @ForActivity
     public LayoutInflater provideLayoutInflater() {
         return mActivity.getLayoutInflater();

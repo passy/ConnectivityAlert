@@ -6,7 +6,8 @@ import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.view.LayoutInflater;
 
-import javax.inject.Singleton;
+import net.rdrei.android.connectivityalert.scope.ConnectivityObservable;
+import net.rdrei.android.connectivityalert.scope.ForApplication;
 
 import dagger.Module;
 import dagger.Provides;
@@ -30,20 +31,17 @@ public class AndroidModule {
      * {@link CAApplication @Annotation} to explicitly differentiate it from an activity context.
      */
     @Provides
-    @Singleton
     @ForApplication
     public Context provideApplicationContext() {
         return mApplication;
     }
 
     @Provides
-    @Singleton
     public ConnectivityManager provideConnectivityManager() {
         return (ConnectivityManager) mApplication.getSystemService(Context.CONNECTIVITY_SERVICE);
     }
 
     @Provides
-    @Singleton
     @ConnectivityObservable
     public Observable<Intent> provideConnectivityObservable() {
         final IntentFilter intentFilter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
@@ -51,7 +49,6 @@ public class AndroidModule {
     }
 
     @Provides
-    @Singleton
     @ForApplication
     public LayoutInflater provideLayoutInflater() {
         return (LayoutInflater) mApplication.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
