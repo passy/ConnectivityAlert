@@ -12,7 +12,8 @@ import android.view.ViewGroup;
 
 import com.parse.ParseAnalytics;
 
-import javax.inject.Singleton;
+import net.rdrei.android.connectivityalert.scope.ConnectivityObservable;
+import net.rdrei.android.connectivityalert.scope.ForActivity;
 
 import dagger.Component;
 import rx.Observable;
@@ -21,9 +22,9 @@ import rx.Observable;
 public class MainActivity extends Activity {
     private ActivityComponent mComponent;
 
-    @Singleton
     @Component(modules = { ActivityModule.class, AndroidModule.class })
     public interface ActivityComponent {
+        @ForActivity
         public ActionBar getActionBar();
         @ConnectivityObservable
         public Observable<Intent> getConnectivityObservable();
@@ -37,7 +38,7 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         ((CAApplication) getApplication()).getComponent().inject(this);
-        mComponent = Dagger_MainActivity$ActivityComponent.builder()
+        mComponent = Dagger_MainActivity_ActivityComponent.builder()
                 .activityModule(new ActivityModule(this))
                 .androidModule(new AndroidModule((CAApplication) this.getApplication()))
                 .build();

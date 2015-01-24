@@ -79,9 +79,9 @@ dependencies {
     provided 'javax.inject:javax.inject:1'
     // Was burnt by incompatibilities before, so I'm vendoring the current HEAD
     // of Dagger 2.
-    compile files('libs/dagger-2.0-SNAPSHOT.jar')
+    compile 'com.google.dagger:dagger:2.0-SNAPSHOT'
     // Only needed at compile time but not at runtime.
-    apt files('libs/dagger-compiler-2.0-SNAPSHOT.jar')
+    apt 'com.google.dagger:dagger-compiler:2.0-SNAPSHOT'
     // Parse ships their SDK as JARs only
     compile files('libs/Parse-1.8.0.jar')
     compile files('libs/ParseCrashReporting-1.8.0.jar')
