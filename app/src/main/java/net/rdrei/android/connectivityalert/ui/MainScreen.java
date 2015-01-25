@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 
+import net.rdrei.android.connectivityalert.HasComponent;
 import net.rdrei.android.connectivityalert.MainActivity;
 import net.rdrei.android.connectivityalert.R;
 import net.rdrei.android.connectivityalert.scope.ForActivity;
@@ -71,7 +72,7 @@ public class MainScreen extends FrameLayout {
 
         Dagger_MainScreen_PresenterComponent.builder()
                 .mainScreen(this)
-                .activityComponent(((MainActivity) getContext()).getComponent())
+                .activityComponent(((HasComponent<MainActivity.ActivityComponent>) getContext()).getComponent())
                 .build()
                 .inject(this);
     }

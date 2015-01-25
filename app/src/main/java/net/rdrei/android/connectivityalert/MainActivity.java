@@ -19,7 +19,7 @@ import dagger.Component;
 import rx.Observable;
 
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements HasComponent<MainActivity.ActivityComponent> {
     private ActivityComponent mComponent;
 
     @Component(modules = { ActivityModule.class, AndroidModule.class })
@@ -72,6 +72,7 @@ public class MainActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
     public ActivityComponent getComponent() {
         return mComponent;
     }
