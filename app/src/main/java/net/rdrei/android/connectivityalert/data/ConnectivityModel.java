@@ -23,7 +23,7 @@ public class ConnectivityModel {
         PENDING
     }
 
-    public class Connectivity {
+    public static class Connectivity {
         public final Date timestamp;
         public final ConnectivityState state;
 

@@ -1,8 +1,5 @@
 package net.rdrei.android.connectivityalert.ui;
 
-import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import junit.framework.TestCase;
@@ -23,25 +20,20 @@ public class MainScreenPresenterTest extends TestCase {
     MainScreen mViewMock;
 
     @Mock
-    ConnectivityManager mConnectivityManager;
-
-    @Mock
-    NetworkInfo mNetworkInfo;
+    ConnectivityModel mModelMock;
 
     private MainScreenPresenter mPresenter;
-    private ConnectivityModel mModel;
-    private PublishSubject<Intent> mConnectivitySubject;
+    private PublishSubject<ConnectivityModel.Connectivity> mConnectivitySubject;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
 
         MockitoAnnotations.initMocks(this);
-        when(mConnectivityManager.getActiveNetworkInfo()).thenReturn(mNetworkInfo);
 
         mConnectivitySubject = PublishSubject.create();
-        mModel = new ConnectivityModel(mConnectivitySubject, mConnectivityManager);
-        mPresenter = new MainScreenPresenter(mViewMock, mModel);
+        when(mModelMock.connectivity()).thenReturn(mConnectivitySubject);
+        mPresenter = new MainScreenPresenter(mViewMock, mModelMock);
         mPresenter.onStart();
     }
 
@@ -54,15 +46,16 @@ public class MainScreenPresenterTest extends TestCase {
 
     @SmallTest
     public void testShowsConnectedView() {
-        when(mNetworkInfo.isConnected()).thenReturn(true);
-        mConnectivitySubject.onNext(new Intent());
+        mConnectivitySubject.onNext(
+                new ConnectivityModel.Connectivity(ConnectivityModel.ConnectivityState.CONNECTED));
         verify(mViewMock).inflateInnerView(R.layout.ui_connected_view);
     }
 
     @SmallTest
     public void testShowsDisconnectedView() {
-        when(mNetworkInfo.isConnected()).thenReturn(false);
-        mConnectivitySubject.onNext(new Intent());
+        mConnectivitySubject.onNext(
+                new ConnectivityModel.Connectivity(
+                        ConnectivityModel.ConnectivityState.DISCONNECTED));
         verify(mViewMock).inflateInnerView(R.layout.ui_disconnected_view);
     }
 }
