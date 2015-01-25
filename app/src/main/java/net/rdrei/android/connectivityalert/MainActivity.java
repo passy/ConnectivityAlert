@@ -13,10 +13,11 @@ import net.rdrei.android.connectivityalert.ui.MainScreen;
 import dagger.Component;
 
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements HasComponent<MainActivity.ActivityComponent> {
     private ActivityComponent mComponent;
 
-    @Component(modules = ActivityModule.class)
+    @Component(modules = ActivityModule.class,
+               dependencies = CAApplication.ApplicationComponent.class)
     @ForActivity
     public interface ActivityComponent {
         void inject(MainScreen screen);
@@ -29,8 +30,10 @@ public class MainActivity extends Activity {
         ParseAnalytics.trackAppOpenedInBackground(getIntent());
         ParseAnalytics.trackEventInBackground("MainActivity.onCreate");
 
+        final CAApplication.ApplicationComponent applicationComponent = ((HasComponent<CAApplication.ApplicationComponent>) getApplicationContext()).getComponent();
         mComponent = Dagger_MainActivity_ActivityComponent.builder()
                 .activityModule(new ActivityModule(this))
+                .applicationComponent(applicationComponent)
                 .build();
 
         final ViewGroup container = (ViewGroup) findViewById(android.R.id.content);
@@ -44,6 +47,7 @@ public class MainActivity extends Activity {
         return true;
     }
 
+    @Override
     public ActivityComponent getComponent() {
         return mComponent;
     }
