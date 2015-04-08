@@ -35,7 +35,7 @@ public class CAApplication extends Application {
 
         ParseACL.setDefaultACL(defaultACL, true);
 
-        mComponent = Dagger_CAApplication_ApplicationComponent.builder()
+        mComponent = DaggerCAApplication_ApplicationComponent.builder()
                 .androidModule(new AndroidModule(this))
                 .build();
     }

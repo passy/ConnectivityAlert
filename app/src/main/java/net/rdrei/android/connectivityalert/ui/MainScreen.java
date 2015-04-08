@@ -70,7 +70,7 @@ public class MainScreen extends FrameLayout {
     protected void onFinishInflate() {
         super.onFinishInflate();
 
-        Dagger_MainScreen_PresenterComponent.builder()
+        DaggerMainScreen_PresenterComponent.builder()
                 .mainScreen(this)
                 .activityComponent(((HasComponent<MainActivity.ActivityComponent>) getContext()).getComponent())
                 .build()

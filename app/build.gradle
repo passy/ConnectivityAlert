@@ -6,7 +6,7 @@ buildscript {
     dependencies {
         classpath 'com.parse.tools:gradle:1.1'
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.4'
-        classpath 'me.tatarka:gradle-retrolambda:2.5.0'
+        classpath 'me.tatarka:gradle-retrolambda:3.0.1'
     }
 }
 
@@ -16,13 +16,13 @@ apply plugin: 'com.parse'
 apply plugin: 'me.tatarka.retrolambda'
 
 android {
-    compileSdkVersion 21
-    buildToolsVersion '21.1.2'
+    compileSdkVersion 22
+    buildToolsVersion '22.0.1'
 
     defaultConfig {
         applicationId 'net.rdrei.android.connectivityalert'
         minSdkVersion 21
-        targetSdkVersion 21
+        targetSdkVersion 22
         versionCode 1
         versionName "1.0"
 
@@ -67,10 +67,9 @@ repositories {
 }
 
 dependencies {
-    compile 'com.android.support:support-annotations:21.0.3'
-    compile 'io.reactivex:rxjava:1.0.3'
-    compile 'io.reactivex:rxandroid:0.23.0'
-    compile 'com.jakewharton:butterknife:6.0.0'
+    compile 'com.android.support:support-annotations:22.0.0'
+    compile 'io.reactivex:rxandroid:0.24.0'
+    compile 'com.jakewharton:butterknife:6.1.0'
 
     // @Generated and co for Dagger 2.0, which doesn't transitively
     // depend on any particular implementation for this.
@@ -78,17 +77,17 @@ dependencies {
     // @Inject, @Provided, ...
     provided 'javax.inject:javax.inject:1'
 
-    compile 'com.google.dagger:dagger:2.0-SNAPSHOT'
+    compile 'com.google.dagger:dagger:2.0'
     // Only needed at compile time but not at runtime.
-    apt 'com.google.dagger:dagger-compiler:2.0-SNAPSHOT'
+    apt 'com.google.dagger:dagger-compiler:2.0'
 
     // Parse ships their SDK as JARs only
-    compile files('libs/Parse-1.8.0.jar')
-    compile files('libs/ParseCrashReporting-1.8.0.jar')
+    compile files('libs/Parse-1.9.0.jar')
+    compile files('libs/ParseCrashReporting-1.9.0.jar')
     compile 'com.parse.bolts:bolts-android:1.1.4'
 
-    // gradle-retrolambda comes with 1.6 by default
-    retrolambdaConfig 'net.orfjackal.retrolambda:retrolambda:1.8.1'
+    // gradle-retrolambda 2 comes with 1.6 by default
+    retrolambdaConfig 'net.orfjackal.retrolambda:retrolambda:2.0.1'
 
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.0'
     androidTestCompile 'com.android.support.test:testing-support-lib:0.1'

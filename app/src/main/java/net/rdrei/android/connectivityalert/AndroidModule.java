@@ -12,7 +12,7 @@ import net.rdrei.android.connectivityalert.scope.ForApplication;
 import dagger.Module;
 import dagger.Provides;
 import rx.Observable;
-import rx.android.observables.AndroidObservable;
+import rx.android.content.ContentObservable;
 
 /**
  * A module for Android-specific dependencies which require a {@link Context} or
@@ -45,7 +45,7 @@ public class AndroidModule {
     @ConnectivityObservable
     public Observable<Intent> provideConnectivityObservable() {
         final IntentFilter intentFilter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
-        return AndroidObservable.fromBroadcast(mApplication, intentFilter);
+        return ContentObservable.fromBroadcast(mApplication, intentFilter);
     }
 
     @Provides

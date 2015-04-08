@@ -38,7 +38,7 @@ public class MainActivity extends Activity implements HasComponent<MainActivity.
         super.onCreate(savedInstanceState);
 
         ((CAApplication) getApplication()).getComponent().inject(this);
-        mComponent = Dagger_MainActivity_ActivityComponent.builder()
+        mComponent = DaggerMainActivity_ActivityComponent.builder()
                 .activityModule(new ActivityModule(this))
                 .androidModule(new AndroidModule((CAApplication) this.getApplication()))
                 .build();
